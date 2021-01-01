@@ -739,7 +739,8 @@ int main (int argc, char** argv) {
             }
 
             // snp case
-            if (genrand_real1() > pow(1 - snp_mutation_rate, log(max(copies, 2)) * 2)) {
+            //if (genrand_real1() > pow(1 - snp_mutation_rate, log(max(copies, 2)) * 2)) {
+            if (genrand_real1() < snp_mutation_rate) {
 
                 // make an alternate allele
                 /*
@@ -781,13 +782,15 @@ int main (int argc, char** argv) {
             }
 
             // indel case
-            if (genrand_real1() > pow(1 - indel_mutation_rate, log(max(copies, 2)) * 2)) {
+            //if (genrand_real1() > pow(1 - indel_mutation_rate, log(max(copies, 2)) * 2)) {
+            if (genrand_real1() < indel_mutation_rate) {
                 // how many bp?
-                if (uniform_indel_distribution) {
+                /*if (uniform_indel_distribution) {
                     len = (int) floor(genrand_real1() * indel_max);
                 } else {
                     len = (int) floor(zetarandom(indel_alpha));
-                }
+                }*/
+                len = 1; //added to control count of edits made
                 // guard against out-of-sequence indels
                 if (pos + len < sequence.size() && len <= indel_max) {
                     if (genrand_int32() % 2 == 0) {
